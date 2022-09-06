@@ -14,7 +14,7 @@ const Feedback = ({
 }) => {
   const { good, neutral, bad } = state;
 
-  const total = countTotalFeedback();
+  const total = countTotalFeedback;
 
   const positive = countPositiveFeedbackPercentage();
 

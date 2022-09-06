@@ -1,59 +1,48 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Feedback from './Feedback/Feedback';
 
 import '../reset.css';
 
-// class App extends Component {
-//   state = {
-//     good: 0,
-//     neutral: 0,
-//     bad: 0,
-//   };
+const App = () => {
+  const [state, setState] = useState({
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  });
 
-//   countTotalFeedback = () => {
-//     const { good, neutral, bad } = this.state;
-//     return good + neutral + bad;
-//   };
+  const leaveVote = propName => {
+    setState(prevState => {
+      const value = prevState[propName];
+      return {
+        ...prevState,
+        [propName]: value + 1,
+      };
+    });
+  };
 
-//   countPositiveFeedbackPercentage = () => {
-//     const total = this.countTotalFeedback();
-//     if (!total) {
-//       return 0;
-//     }
-//     const { good } = this.state;
-//     const result = Math.round((good / total) * 100);
+  const { good, neutral, bad } = state;
+  const total = good + neutral + bad;
 
-//     return result;
-//   };
+  const countPositiveFeedbackPercentage = () => {
+    if (!total) {
+      return 0;
+    }
+    const { good } = state;
+    const result = Math.round((good / total) * 100);
 
-//   leaveVote = propName => {
-//     this.setState(prevState => {
-//       const value = prevState[propName];
-//       return {
-//         [propName]: value + 1,
-//       };
-//     });
-//   };
+    return result;
+  };
 
-//   render() {
-//     const {
-//       state,
-//       countTotalFeedback,
-//       countPositiveFeedbackPercentage,
-//       leaveVote,
-//     } = this;
+  return (
+    <div>
+      <Feedback
+        state={state}
+        countTotalFeedback={total}
+        countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
+        leaveVote={leaveVote}
+      />
+    </div>
+  );
+};
 
-//     return (
-//       <div>
-//         <Feedback
-//           state={state}
-//           countTotalFeedback={countTotalFeedback}
-//           countPositiveFeedbackPercentage={countPositiveFeedbackPercentage}
-//           leaveVote={leaveVote}
-//         />
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
+export default App;
